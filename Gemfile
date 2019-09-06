@@ -28,6 +28,9 @@ gem 'slim-rails'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 
+# auth
+gem 'devise'
+
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
