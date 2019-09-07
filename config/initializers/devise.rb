@@ -8,7 +8,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '0d8fd5ca2caabc0836bea74cfe92186d9837c6321f2d4431a72635bd5436300edd1e5bc8ba4988f53546ceaf22f06d3f3d65c08290a22c58070a1016524ed125'
+  config.secret_key = '0d8fd5ca2caabc0836bea74cfe92186d9837c6321f2d4431a72635bd5436300edd1e5bc8ba4988f53546ceaf22f06d3f3d65c08290a22c58070a1016524ed125'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -70,7 +70,7 @@ Devise.setup do |config|
   # given strategies, for example, `config.http_authenticatable = [:database]` will
   # enable it only for database authentication. The supported strategies are:
   # :database      = Support basic authentication with authentication key + password
-  # config.http_authenticatable = false
+  config.http_authenticatable = true
 
   # If 401 status code should be returned for AJAX requests. True by default.
   # config.http_authenticatable_on_xhr = true
@@ -166,12 +166,12 @@ Devise.setup do |config|
 
   # ==> Configuration for :validatable
   # Range for password length.
-  config.password_length = 6..128
+  config.password_length = 4..128
 
   # Email regex used to validate email formats. It simply asserts that
   # one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
-  config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
+  # config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
 
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
