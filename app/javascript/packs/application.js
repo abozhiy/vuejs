@@ -15,4 +15,31 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-console.log('Hello World from Webpacker!')
+import Vue from 'vue/dist/vue.esm'
+import App from '../app.vue'
+import Client from './components/clients'
+import Staff from './components/staffs'
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  let element = document.getElementById('client_component')
+  if (element != null) {
+      const app = new Vue({
+          el: element,
+          render: h => h(Client)
+      }).$mount()
+      document.body.appendChild(app.$el)
+  }
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+  let element = document.getElementById('staff_component')
+  if (element != null) {
+      const app = new Vue({
+          el: element,
+          render: h => h(Staff)
+      }).$mount()
+      document.body.appendChild(app.$el)
+  }
+})
+

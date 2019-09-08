@@ -3,4 +3,7 @@ class Client::ClientsController < ApplicationController
 
   def index
   end
+
+  def show
+  end
 end
