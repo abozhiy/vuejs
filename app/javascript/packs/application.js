@@ -17,8 +17,8 @@
 
 import Vue from 'vue/dist/vue.esm'
 // import App from '../app.vue'
-import ClientComponent from './components/clients'
-import StaffComponent from './components/staffs'
+import ClientComponent from './client/components/clients'
+import StaffComponent from './staff/components/staffs'
 import Rails from "../../../node_modules/rails-ujs"
 
 Rails.start()
