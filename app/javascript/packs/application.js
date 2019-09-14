@@ -16,9 +16,9 @@
 // const imagePath = (name) => images(name, true)
 
 import Vue from 'vue/dist/vue.esm'
-import App from '../app.vue'
-import Client from './components/clients'
-import Staff from './components/staffs'
+// import App from '../app.vue'
+import ClientComponent from './components/clients'
+import StaffComponent from './components/staffs'
 import Rails from "../../../node_modules/rails-ujs"
 
 Rails.start()
@@ -27,22 +27,19 @@ Rails.start()
 document.addEventListener('DOMContentLoaded', () => {
   let element = document.getElementById('client_component')
   if (element != null) {
-      const app = new Vue({
-          el: element,
-          render: h => h(Client)
-      }).$mount()
-      document.body.appendChild(app.$el)
+    new Vue({
+      el: element,
+      render: h => h(ClientComponent)
+    })
   }
 })
 
 document.addEventListener('DOMContentLoaded', () => {
   let element = document.getElementById('staff_component')
   if (element != null) {
-      const app = new Vue({
-          el: element,
-          render: h => h(Staff)
-      }).$mount()
-      document.body.appendChild(app.$el)
+    new Vue({
+      el: element,
+      render: h => h(StaffComponent)
+    })
   }
 })
-
