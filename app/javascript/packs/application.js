@@ -19,6 +19,9 @@ import Vue from 'vue/dist/vue.esm'
 import App from '../app.vue'
 import Client from './components/clients'
 import Staff from './components/staffs'
+import Rails from "../../../node_modules/rails-ujs"
+
+Rails.start()
 
 
 document.addEventListener('DOMContentLoaded', () => {
