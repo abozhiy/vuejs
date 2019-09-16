@@ -15,31 +15,11 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-import Vue from 'vue/dist/vue.esm'
-// import App from '../app.vue'
-import ClientComponent from './client/components/clients'
-import StaffComponent from './staff/components/staffs'
+
 import Rails from "../../../node_modules/rails-ujs"
 
 Rails.start()
 
+require("./client.js")
+require("./staff.js")
 
-document.addEventListener('DOMContentLoaded', () => {
-  let element = document.getElementById('client_component')
-  if (element != null) {
-    new Vue({
-      el: element,
-      render: h => h(ClientComponent)
-    })
-  }
-})
-
-document.addEventListener('DOMContentLoaded', () => {
-  let element = document.getElementById('staff_component')
-  if (element != null) {
-    new Vue({
-      el: element,
-      render: h => h(StaffComponent)
-    })
-  }
-})

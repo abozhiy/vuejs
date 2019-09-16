@@ -11,4 +11,13 @@ Rails.application.routes.draw do
   end
 
   root 'application#start'
+
+  namespace :api, defaults: { format: 'json' } do
+    devise_for :clients
+    namespace :v1 do
+      namespace :client do
+        resources :clients
+      end
+    end
+  end
 end
