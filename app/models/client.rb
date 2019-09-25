@@ -1,7 +1,7 @@
 class Client < ApplicationRecord
   # before_action :generate_authentication_token
 
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable,
          :recoverable, :rememberable, :validatable
 
   # private
