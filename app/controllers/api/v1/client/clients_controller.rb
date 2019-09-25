@@ -2,17 +2,17 @@ class Api::V1::Client::ClientsController < ActionController::Base
 
 
   def index
-    clients = Client.all
-    render json: clients.to_json, status: :ok
+    @clients = Client.all
+    render status: :ok
   end
 
   def create
-    client = Client.new(client_params)
+    @client = Client.new(client_params)
 
-    if client.save
-      render json: client.to_json, status: :ok
+    if @client.save
+      render status: :created
     else
-      render json: {errors: client.errors.messages}, status: :unprocessable_entity
+      render json: @client.errors, status: :unprocessable_entity
     end
   end
 
