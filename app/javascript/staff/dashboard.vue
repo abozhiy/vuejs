@@ -1,19 +1,19 @@
-<template>
+<template lang='pug'>
     <div>
-        <input v-model="fullname" placeholder="fullname">
+        <input v-model="user.fullname" placeholder="fullname">
         <br>
-        <input v-model="email" placeholder="email">
+        <input v-model="user.email" placeholder="email">
         <br>
-        <input v-model="phone" placeholder="phone">
+        <input v-model="user.phone" placeholder="phone">
         <br>
-        <input v-model="password" placeholder="password">
+        <input v-model="user.password" placeholder="password">
         <br>
         <button @click="checkValidate">Add Client</button>
         <br>
         <br>
         <h2>Clients:</h2>
         <li v-for="client in clients" :key="client.id">
-            {{ client.fullname + ' / ' + client.email + ' / ' + client.phone }}
+            <span>{{ client.fullname + ' / ' + client.email + ' / ' + client.phone }}</span>
         </li>
     </div>
 </template>
@@ -25,10 +25,12 @@
     export default {
         data: function () {
             return {
-                fullname: '',
-                email: '',
-                phone: '',
-                password: '',
+                user: {
+                    fullname: '',
+                    email: '',
+                    phone: '',
+                    password: ''
+                },
                 clients: []
             }
         },
@@ -37,11 +39,7 @@
         },
         methods: {
             checkFullname(fullname) {
-                if (fullname.length > 0 && fullname.length < 5) {
-                  return true
-                } else {
-                  return false
-                }
+                return fullname.length > 0 && fullname.length < 5;
             },
             checkEmail(email) {
                 let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -52,11 +50,7 @@
                 return regex.test(String(phone));
             },
             checkPassword(password) {
-                if (password.length >= 4) {
-                    return true
-                } else {
-                    return false
-                }
+                return password.length >= 4;
             },
 
             getClientsCollection() {
@@ -72,10 +66,10 @@
 
             checkValidate() {
                 let params = {
-                    fullname: this.fullname,
-                    email: this.email,
-                    phone: this.phone,
-                    password: this.password
+                    fullname: this.user.fullname,
+                    email: this.user.email,
+                    phone: this.user.phone,
+                    password: this.user.password
                 }
 
                 if (!this.checkFullname(params.fullname)) {
@@ -113,7 +107,7 @@
 </script>
 
 
-<style scoped>
+<style lang='scss'>
     li {
         font-size: 1em;
     }

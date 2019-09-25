@@ -1,8 +1,8 @@
-<template>
+<template lang='pug'>
     <div class="navbar">
         <img class="logo" src='~images/logo.png' />
         <a v-bind:href="parentData.path + '/sign_out'" data-method="delete">
-            <button>Sign out</button>
+            <button id='sign_out_button'>Sign out</button>
         </a>
         <!--<button @click="SignOut">Выход</button>-->
     </div>
@@ -44,7 +44,7 @@
     }
 </script>
 
-<style scoped>
+<style lang='scss'>
     .navbar {
         background-color: lightgrey;
         z-index: 3;
@@ -54,7 +54,7 @@
         margin-top: 4px;
         margin-left: 4px;
     }
-    button {
+    button#sign_out_button {
         float: right;
         margin-right: 15px;
         margin-top: 15px;

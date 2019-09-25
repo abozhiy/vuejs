@@ -1,4 +1,4 @@
-<template>
+<template lang='pug'>
     <div>
         <navbar :parentData="{path: path}"></navbar>
         <p>{{ message }}</p>
@@ -24,7 +24,7 @@
     }
 </script>
 
-<style scoped>
+<style lang='scss'>
     p {
         font-size: 2em;
         text-align: center;
