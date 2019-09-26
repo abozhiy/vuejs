@@ -14,6 +14,7 @@
         <h2>Clients:</h2>
         <li v-for="client in clients" :key="client.id">
             <span>{{ client.fullname + ' / ' + client.email + ' / ' + client.phone }}</span>
+            <button @click="deleteClient(client.id)">Delete</button>
         </li>
     </div>
 </template>
@@ -99,6 +100,16 @@
                 .catch((error) => {
                     console.log(error)
                 })
+            },
+
+            deleteClient(id) {
+              backend.records.destroy(this.parentData.client_path, id)
+              .then((response) => {
+                this.getClientsCollection()
+              })
+              .catch((error) => {
+                console.log(error)
+              })
             }
         },
         created() {

@@ -16,6 +16,12 @@ class Api::V1::Client::ClientsController < ActionController::Base
     end
   end
 
+  def destroy
+    @client = Client.find(params[:id])
+    @client.destroy
+    head :ok
+  end
+
   private
 
   def client_params
