@@ -1,9 +1,8 @@
 <template lang='pug'>
-    <div>
-        <navbar :parentData="{path: path, client_path: client_path}"></navbar>
-        <p>{{ message }}</p>
-        <dashboard :parentData="{path: path, client_path: client_path}"></dashboard>
-    </div>
+    div
+        navbar(:parentData="{path: path, client_path: client_path}")
+        p(v-html="message")
+        dashboard(:parentData="{path: path, client_path: client_path}")
 </template>
 
 <script>

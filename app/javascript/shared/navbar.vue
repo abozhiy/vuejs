@@ -1,11 +1,8 @@
 <template lang='pug'>
-    <div class="navbar">
-        <img class="logo" src='~images/logo.png' />
-        <a v-bind:href="parentData.path + '/sign_out'" data-method="delete">
-            <button id='sign_out_button'>Sign out</button>
-        </a>
-        <!--<button @click="SignOut">Выход</button>-->
-    </div>
+    div(class="navbar")
+        img(class="logo" src='~images/logo.png')
+        a(v-bind:href="parentData.path + '/sign_out'" data-method="delete")
+            button(id='sign_out_button') Sign out
 </template>
 
 <script>

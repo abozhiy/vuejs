@@ -1,22 +1,22 @@
 <template lang='pug'>
-    <div>
-        <input v-model="user.fullname" placeholder="fullname">
-        <br>
-        <input v-model="user.email" placeholder="email">
-        <br>
-        <input v-model="user.phone" placeholder="phone">
-        <br>
-        <input v-model="user.password" placeholder="password">
-        <br>
-        <button @click="checkValidate">Add Client</button>
-        <br>
-        <br>
-        <h2>Clients:</h2>
-        <li v-for="client in clients" :key="client.id">
-            <span>{{ client.fullname + ' / ' + client.email + ' / ' + client.phone }}</span>
-            <button @click="deleteClient(client.id)">Delete</button>
-        </li>
-    </div>
+    div
+        input(v-model="user.fullname" placeholder="fullname")
+        br
+        input(v-model="user.email" placeholder="email")
+        br
+        input(v-model="user.phone" placeholder="phone")
+        br
+        input(v-model="user.password" placeholder="password")
+        br
+        button(@click="checkValidate") Add Client
+        br
+        br
+
+        h2 Clients:
+
+        li(v-for="client in clients" :key="client.id")
+            span(v-html="getClientFullInfo(client)")
+            button(@click="deleteClient(client.id)") Delete
 </template>
 
 
@@ -66,6 +66,10 @@
                 })
             },
 
+            getClientFullInfo(client) {
+                return client.fullname + ' / ' + client.email + ' / ' + client.phone
+            },
+
             checkValidate() {
                 let params = {
                     fullname: this.user.fullname,
@@ -91,10 +95,10 @@
                 backend.records.create(this.parentData.client_path, params)
                 .then((response) => {
                     // console.log(response)
-                    this.fullname = ''
-                    this.email = ''
-                    this.phone = ''
-                    this.password = ''
+                    this.user.fullname = ''
+                    this.user.email = ''
+                    this.user.phone = ''
+                    this.user.password = ''
                     this.getClientsCollection()
                 })
                 .catch((error) => {
