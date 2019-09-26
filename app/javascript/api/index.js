@@ -1,25 +1,20 @@
 import axios from "axios"
 
-export default {
-
-  // signOut(path) {
-  //   axios.delete(path)
-  //   .then((response) => {
-  //     console.log(response)
-  //   })
-  //   .catch((error) => {
-  //     console.log(error)
-  //   })
-  //   .finally((response) => {
-  //     console.log('aaaa')
-  //   });
-  // }
-
-  addNewInstance(path, params) {
-    return axios.post(path, params)
-  },
-
-  getCollection(path) {
-    return axios.get(path)
+const adapter = axios.create({
+  baseURL: '/api/v1',
+  headers: {
+    'Accept': 'application/json'
   }
+})
+
+const backend = {
+  records: {
+    index: (url) => adapter.get(url),
+    create: (url, params) => adapter.post(url, params),
+    destroy: (url, id) => adapter.delete(url + '/' + id),
+  }
+}
+
+export {
+  backend
 }

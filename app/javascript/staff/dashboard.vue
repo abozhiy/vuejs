@@ -20,7 +20,7 @@
 
 
 <script>
-    import backend from '../api/index.js'
+    import { backend } from '../api/index.js'
 
     export default {
         data: function () {
@@ -54,7 +54,8 @@
             },
 
             getClientsCollection() {
-                backend.getCollection('/api/v1' + this.parentData.client_path)
+
+                backend.records.index(this.parentData.client_path)
                 .then((response) => {
                     // console.log(response.data)
                     this.clients = response.data
@@ -86,7 +87,7 @@
             },
 
             addClient(params) {
-                backend.addNewInstance('/api/v1' + this.parentData.client_path, params)
+                backend.records.create(this.parentData.client_path, params)
                 .then((response) => {
                     // console.log(response)
                     this.fullname = ''
