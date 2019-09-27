@@ -1,4 +1,4 @@
-import Vue from 'vue/dist/vue.esm'
+import Vue from 'vue'
 
 import '../assets/styles/quasar.styl'
 import iconSet from 'quasar/icon-set/fontawesome-v5.js'

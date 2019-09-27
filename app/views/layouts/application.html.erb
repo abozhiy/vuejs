@@ -2,8 +2,6 @@
 <html>
 <head>
   <title>Vuejs</title>
-  <%= javascript_pack_tag 'application' %>
-  <%= stylesheet_pack_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -11,6 +9,7 @@
 <!--<p class="alert"><%#= alert %></p>-->
 
 <%= yield %>
-
+<%= javascript_pack_tag 'application' %>
+<%= stylesheet_pack_tag 'application' %>
 </body>
 </html>
