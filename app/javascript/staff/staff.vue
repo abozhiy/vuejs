@@ -1,11 +1,16 @@
 <template lang='pug'>
-    q-layout(view="hHh lpR fFf")
-        q-header
-            navbar(:parentData="{path: path, client_path: client_path}")
-        q-page-container
-            p(v-html="message")
-            dashboard(:parentData="{path: path, client_path: client_path}")
-        q-drawer(show-if-above side="left" bordered)
+    div
+        div(v-if="loading")
+            div(class="window-height window-width row justify-center items-center" style="font-size: 3em")
+                q-spinner-audio(color="secondary")
+
+        q-layout(view="hHh lpR fFf")
+            q-header
+                navbar(:parentData="{path: path, client_path: client_path}")
+            q-page-container
+                p(v-html="message")
+                dashboard(:parentData="{path: path, client_path: client_path}")
+            q-drawer(show-if-above side="left" bordered)
 
 </template>
 
@@ -18,12 +23,16 @@
             return {
                 message: "Hello staff!",
                 path: '/staff/staffs',
-                client_path: '/client/clients'
+                client_path: '/client/clients',
+                loading: true
             }
         },
         components: {
             Navbar,
             Dashboard
+        },
+        mounted() {
+            this.loading = false
         }
     }
 </script>
