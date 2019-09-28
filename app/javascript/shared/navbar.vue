@@ -1,13 +1,12 @@
 <template lang='pug'>
-    div(class="navbar")
-        img(class="logo" src='~images/logo.png')
+    q-toolbar(class="navbar")
+        q-toolbar-title
+            img(class="logo" src='~images/logo.png')
         a(v-bind:href="parentData.path + '/sign_out'" data-method="delete")
-            button(id='sign_out_button') Sign out
+            q-btn(label="Sign out" text-color="white")
 </template>
 
 <script>
-    // import backend from "../api/index"
-    // import axios from "axios"
     // import VueRouter from 'vue-router';
 
     export default {
@@ -20,23 +19,6 @@
             parentData: Object
         },
         methods: {
-          // SignOut() {
-          //   // let path = '/staff/staffs/sign_out'
-          //   // backend.signOut(path)
-          //
-          //   let sign_out_path = this.parentData.path + '/sign_out'
-          //
-          //   axios.delete(sign_out_path)
-          //       .then((response) => {
-          //           console.log(response)
-          //       })
-          //       .catch((error) => {
-          //           console.log(error)
-          //       })
-          //       .finally(() => {
-          //         // VueRouter.push({ path: '/' })
-          //       });
-          // }
         }
     }
 </script>
@@ -50,10 +32,5 @@
         width: 80px;
         margin-top: 4px;
         margin-left: 4px;
-    }
-    button#sign_out_button {
-        float: right;
-        margin-right: 15px;
-        margin-top: 15px;
     }
 </style>

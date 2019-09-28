@@ -1,7 +1,10 @@
 <template lang='pug'>
-    div
-        navbar(:parentData="{path: path}")
-        p(v-html="message")
+    q-layout(view="hHh lpR fFf")
+        q-header
+            navbar(:parentData="{path: path}")
+        q-page-container
+            p(v-html="message")
+        q-drawer(show-if-above v-model="left" side="left" bordered)
 </template>
 
 <script>

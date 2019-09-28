@@ -1,8 +1,12 @@
 <template lang='pug'>
-    div
-        navbar(:parentData="{path: path, client_path: client_path}")
-        p(v-html="message")
-        dashboard(:parentData="{path: path, client_path: client_path}")
+    q-layout(view="hHh lpR fFf")
+        q-header
+            navbar(:parentData="{path: path, client_path: client_path}")
+        q-page-container
+            p(v-html="message")
+            dashboard(:parentData="{path: path, client_path: client_path}")
+        q-drawer(show-if-above side="left" bordered)
+
 </template>
 
 <script>

@@ -72,7 +72,7 @@ module.exports = function(api) {
         {
           quasar: {
             transform: `quasar/dist/babel-transforms/imports.js`,
-            preventFullImport: true
+            preventFullImport: false
           }
         }
       ]

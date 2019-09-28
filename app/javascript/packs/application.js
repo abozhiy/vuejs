@@ -17,10 +17,5 @@
 
 
 import Rails from "../../../node_modules/rails-ujs"
-import '../quasar/index'
-
 Rails.start()
-
-require("./client.js")
-require("./staff.js")
 

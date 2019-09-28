@@ -1,22 +1,20 @@
 <template lang='pug'>
     div
-        input(v-model="user.fullname" placeholder="fullname")
-        br
-        input(v-model="user.email" placeholder="email")
-        br
-        input(v-model="user.phone" placeholder="phone")
-        br
-        input(v-model="user.password" placeholder="password")
-        br
-        button(@click="checkValidate") Add Client
-        br
-        br
+        div(class='add-client-form' style="max-width: 300px")
+            q-input(outlined v-model="user.fullname" label="fullname")
+            q-input(outlined v-model="user.email" label="email")
+            q-input(outlined v-model="user.phone" label="phone")
+            q-input(outlined v-model="user.password" label="password")
+            q-btn(outline color="secondary" label="Add Client" size='sm' @click="checkValidate")
 
-        h2 Clients:
-
-        li(v-for="client in clients" :key="client.id")
-            span(v-html="getClientFullInfo(client)")
-            button(@click="deleteClient(client.id)") Delete
+        div(class='clients-list' style="max-width: 500px")
+            h3 Clients:
+            q-list(highlight separator)
+                q-item(v-for="client in clients" :key="client.id" highlight separator)
+                    q-item-section
+                        q-item-label(v-html="client.fullname")
+                        q-item-label(v-html="getClientFullInfo(client)")
+                    q-btn(outline color="secondary" label="Delete" size='xs' @click="deleteClient(client.id)")
 </template>
 
 
@@ -67,7 +65,7 @@
             },
 
             getClientFullInfo(client) {
-                return client.fullname + ' / ' + client.email + ' / ' + client.phone
+                return 'Email: ' + client.email + ', Phone: ' + client.phone
             },
 
             checkValidate() {
