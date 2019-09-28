@@ -9,7 +9,7 @@
                 navbar(:parentData="{path: path, client_path: client_path}")
             q-page-container
                 p(v-html="message")
-                dashboard(:parentData="{path: path, client_path: client_path}")
+                dashboard(:parentData="{path: path, client_path: client_path, organization_path: organization_path}")
             q-drawer(show-if-above side="left" bordered)
 
 </template>
@@ -24,6 +24,7 @@
                 message: "Hello staff!",
                 path: '/staff/staffs',
                 client_path: '/client/clients',
+                organization_path: '/organizations',
                 loading: true
             }
         },
