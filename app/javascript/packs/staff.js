@@ -1,3 +1,6 @@
+import Rails from "../../../node_modules/rails-ujs"
+Rails.start()
+
 // import Vue from 'vue/dist/vue.esm'
 // import '../quasar'
 import Staff from '../staff/staff.vue'
