@@ -17,22 +17,17 @@
                     q-btn(outline color="secondary" label="Delete" size='xs' @click="deleteClient(client.id)")
 
     div
-        div(class='add-organization-form' style="max-width: 300px")
+        div(class='q-pa-md add-organization-form' style="max-width: 300px")
             q-input(outlined v-model="organization.name" label="name")
             q-input(outlined v-model="organization.org_type" label="type")
             q-input(outlined v-model="organization.inn" label="inn")
             q-input(outlined v-model="organization.ogrn" label="ogrn")
             q-btn(outline color="secondary" label="Add organization" size='sm' @click="addOrganization")
 
-        div(class='organizations-table')
-            h3 Organizations:
-            q-list(highlight separator)
-                q-item(v-for="organization in organizations" :key="organization.id" highlight separator)
-                    q-item-section
-                        q-item-label(v-html="organization.name")
-                        q-item-label(v-html="getOrganizationFullInfo(organization)")
-                    q-btn(outline color="secondary" label="Delete" size='xs' @click="deleteOrganization(organization.id)")
-
+        div(class="q-pa-md")
+            q-table(title="Organizations:" :data="table_data" :columns="organization_columns" row-key="name")
+                q-td(slot="body-cell-action" slot-scope="props" :props="props")
+                    q-btn(outline color="secondary" label="Delete" size='xs' @click="deleteOrganization(props.row.id)")
 </template>
 
 
@@ -55,7 +50,16 @@
                     inn: '',
                     ogrn: ''
                 },
-                organizations: []
+                // organizations: [],
+                organization_columns: [
+                    { name: 'id', label: 'Id', field: 'id', sortable: true },
+                    { name: 'org_name', label: 'Name', field: 'name', sortable: true },
+                    { name: 'org_type', label: 'Type', field: 'org_type', sortable: true },
+                    { name: 'inn', label: 'INN', field: 'inn', sortable: true },
+                    { name: 'ogrn', label: 'OGRN', field: 'ogrn', sortable: true },
+                    { name: 'action', label: '', field: 'action' }
+                ],
+                table_data: []
             }
         },
         props: {
@@ -89,7 +93,7 @@
                 backend.records.index(this.parentData.organization_path)
                 .then((response) => {
                     // console.log(response.data)
-                    this.organizations = response.data
+                    this.table_data = response.data
                 })
                 .catch((error) => {
                     console.log(error)
@@ -101,6 +105,7 @@
             },
 
             deleteOrganization(id) {
+                // console.log(id)
                 backend.records.destroy(this.parentData.organization_path, id)
                 .then((response) => {
                     this.getOrganizationsCollection()
