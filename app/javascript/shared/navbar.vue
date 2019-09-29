@@ -1,7 +1,7 @@
 <template lang='pug'>
     q-toolbar(class="navbar")
         q-toolbar-title
-            img(class="logo" src='~images/logo.png')
+            img(class="logo" src='./images/logo.png')
         a(v-bind:href="parentData.path + '/sign_out'" data-method="delete")
             q-btn(label="Sign out" text-color="white")
 </template>

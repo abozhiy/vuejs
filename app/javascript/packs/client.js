@@ -5,7 +5,7 @@ Rails.start()
 import Client from '../client/client.vue'
 
 import Vue from 'vue'
-import '../quasar'
+import '../client/quasar'
 
 
 document.addEventListener('DOMContentLoaded', () => {

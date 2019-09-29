@@ -8,7 +8,7 @@ const adapter = axios.create({
 })
 
 const backend = {
-  records: {
+  staffs: {
     index: (url) => adapter.get(url),
     create: (url, params) => adapter.post(url, params),
     destroy: (url, id) => adapter.delete(url + '/' + id),

@@ -32,7 +32,7 @@
 
 
 <script>
-    import { backend } from '../api/index.js'
+    import { backend } from './api/index.js'
 
     export default {
         data: function () {
@@ -75,7 +75,7 @@
                     ogrn: this.organization.ogrn
                 }
 
-                backend.records.create(this.parentData.organization_path, params)
+                backend.staffs.create(this.parentData.organization_path, params)
                 .then((response) => {
                     // console.log(response)
                     this.organization.name = ''
@@ -90,7 +90,7 @@
             },
 
             getOrganizationsCollection() {
-                backend.records.index(this.parentData.organization_path)
+                backend.staffs.index(this.parentData.organization_path)
                 .then((response) => {
                     // console.log(response.data)
                     this.table_data = response.data
@@ -106,7 +106,7 @@
 
             deleteOrganization(id) {
                 // console.log(id)
-                backend.records.destroy(this.parentData.organization_path, id)
+                backend.staffs.destroy(this.parentData.organization_path, id)
                 .then((response) => {
                     this.getOrganizationsCollection()
                 })
@@ -133,7 +133,7 @@
             //
             // getClientsCollection() {
             //
-            //     backend.records.index(this.parentData.client_path)
+            //     backend.staffs.index(this.parentData.client_path)
             //     .then((response) => {
             //         // console.log(response.data)
             //         this.clients = response.data
@@ -169,7 +169,7 @@
             // },
             //
             // addClient(params) {
-            //     backend.records.create(this.parentData.client_path, params)
+            //     backend.staffs.create(this.parentData.client_path, params)
             //     .then((response) => {
             //         // console.log(response)
             //         this.user.fullname = ''
@@ -184,7 +184,7 @@
             // },
             //
             // deleteClient(id) {
-            //   backend.records.destroy(this.parentData.client_path, id)
+            //   backend.staffs.destroy(this.parentData.client_path, id)
             //   .then((response) => {
             //     this.getClientsCollection()
             //   })
