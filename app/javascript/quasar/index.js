@@ -20,7 +20,11 @@ import {
   QItem,
   QItemSection,
   QItemLabel,
-  QSpinnerAudio
+  QSpinnerAudio,
+  QTable,
+  QTh,
+  QTr,
+  QTd
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -40,7 +44,11 @@ Vue.use(Quasar, {
     QItem,
     QItemSection,
     QItemLabel,
-    QSpinnerAudio
+    QSpinnerAudio,
+    QTable,
+    QTh,
+    QTr,
+    QTd
   },
   directives: {},
   plugins: {},
