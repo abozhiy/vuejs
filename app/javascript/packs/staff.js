@@ -5,7 +5,7 @@ Rails.start()
 import Staff from '../staff/staff.vue'
 
 import Vue from 'vue'
-import '../staff/quasar'
+import '../shared/quasar'
 
 
 document.addEventListener('DOMContentLoaded', () => {
