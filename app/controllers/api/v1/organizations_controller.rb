@@ -6,11 +6,26 @@ class Api::V1::OrganizationsController < ActionController::Base
     render status: :ok
   end
 
+  def show
+    @organization = Organization.find(params[:id])
+    render status: :ok
+  end
+
   def create
     @organization = Organization.new(organization_params)
 
     if @organization.save
       render status: :created
+    else
+      render json: @organization.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @organization = Organization.find(params[:id])
+
+    if @organization.update(organization_params)
+      render status: :ok
     else
       render json: @organization.errors, status: :unprocessable_entity
     end

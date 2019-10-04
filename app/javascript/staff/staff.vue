@@ -8,15 +8,14 @@
       q-header
         navbar(:parentData="{path: path, client_path: client_path}")
       q-page-container
-        p(v-html="message")
-        dashboard(:parentData="{path: path, client_path: client_path, organization_path: organization_path}")
+        //p(v-html="message")
+        router-view(:parentData="{path: path, client_path: client_path, organization_path: organization_path}")
       q-drawer(show-if-above side="left" bordered)
-
 </template>
 
 <script>
   import Navbar from '../shared/navbar.vue'
-  import Dashboard from "./dashboard";
+  // import Dashboard from "./dashboard";
 
   export default {
     data: function () {
@@ -30,7 +29,16 @@
     },
     components: {
       Navbar,
-      Dashboard
+      // Dashboard
+    },
+    methods: {
+      // addStaff() {
+      //   // let add_staff = true
+      //   this.$router.push({ path: '/staff/new_staff', params: {add_staff: true} })
+      // }
+      // toDashboard (params) {
+      //   this.$router.push({path: '/staff/dashboard', params: {organization_path: params.organization_path}})
+      // }
     },
     mounted() {
       this.loading = false

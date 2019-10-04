@@ -6,11 +6,26 @@ class Api::V1::Client::ClientsController < ActionController::Base
     render status: :ok
   end
 
+  def show
+    @client = Client.find(params[:id])
+    render status: :ok
+  end
+
   def create
     @client = Client.new(client_params)
 
     if @client.save
       render status: :created
+    else
+      render json: @client.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @client = Client.find(params[:id])
+
+    if @client.update(client_params)
+      render status: :ok
     else
       render json: @client.errors, status: :unprocessable_entity
     end

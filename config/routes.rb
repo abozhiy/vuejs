@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   end
 
   root 'application#start'
+  get '/staff/*slug', to: 'staff/staffs#index'
+  get '/client/*slug', to: 'client/clients#index'
 
   namespace :api, defaults: { format: 'json' } do
     devise_for :clients
@@ -18,6 +20,9 @@ Rails.application.routes.draw do
       resources :organizations
       namespace :client do
         resources :clients
+      end
+      namespace :staff do
+        resources :staffs
       end
     end
   end

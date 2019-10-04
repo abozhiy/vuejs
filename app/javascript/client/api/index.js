@@ -1,4 +1,5 @@
 import axios from "axios"
+import Vue from "vue";
 
 const adapter = axios.create({
   baseURL: '/api/v1',
@@ -14,6 +15,8 @@ const backend = {
     destroy: (url, id) => adapter.delete(url + '/' + id),
   }
 }
+
+// Vue.prototype.$client_backend = backend
 
 export {
   backend

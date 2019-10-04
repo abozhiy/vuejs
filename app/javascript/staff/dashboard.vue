@@ -1,44 +1,79 @@
 <template lang='pug'>
-  //div
-      div(class='add-client-form' style="max-width: 300px")
-          q-input(outlined v-model="user.fullname" label="fullname")
-          q-input(outlined v-model="user.email" label="email")
-          q-input(outlined v-model="user.phone" label="phone")
-          q-input(outlined v-model="user.password" label="password")
-          q-btn(outline color="secondary" label="Add Client" size='sm' @click="checkValidate")
-
-      div(class='clients-list' style="max-width: 500px")
-          h3 Clients:
-          q-list(highlight separator)
-              q-item(v-for="client in clients" :key="client.id" highlight separator)
-                  q-item-section
-                      q-item-label(v-html="client.fullname")
-                      q-item-label(v-html="getClientFullInfo(client)")
-                  q-btn(outline color="secondary" label="Delete" size='xs' @click="deleteClient(client.id)")
 
   div
-    add-organization(:parentData="{organization_path: this.parentData.organization_path}" v-on:update-org-list="getOrganizationsCollection")
     div(class="q-pa-md")
+      q-btn(outline color="secondary" label="Add organization" @click="addNewInstance(parentData.organization_path, 'addOrganization')")
       q-table(title="Organizations:" :data="organization_table_data" :columns="organization_columns" row-key="name")
         q-td(slot="body-cell-action" slot-scope="props" :props="props")
-          q-btn(outline color="secondary" label="Delete" size='xs' @click="deleteOrganization(props.row.id)")
+          q-btn-dropdown(color="primary" label="Actions")
+            q-list
+              q-item(clickable v-close-popup='1' @click="showInstance(props.row, parentData.organization_path, 'showOrganization')")
+                q-item-section
+                  q-item-label Show
+
+              q-item(clickable v-close-popup='1' @click="editInstance(props.row, parentData.organization_path, 'editOrganization')")
+                q-item-section
+                  q-item-label Edit
+
+              q-item(clickable v-close-popup='1' @click="deleteInstance(props.row.id, parentData.organization_path, 'organization_table_data')")
+                q-item-section
+                  q-item-label Delete
+
+
+    div(class="q-pa-md")
+      q-btn(outline color="secondary" label="Add client" @click="addNewInstance(parentData.client_path, 'addClient')")
+      q-table(title="Clients:" :data="client_table_data" :columns="client_columns" row-key="name")
+        q-td(slot="body-cell-action" slot-scope="props" :props="props")
+          q-btn-dropdown(color="primary" label="Actions")
+            q-list
+              q-item(clickable v-close-popup='1' @click="showInstance(props.row, parentData.client_path, 'showClient')")
+                q-item-section
+                  q-item-label Show
+
+              q-item(clickable v-close-popup='1' @click="editInstance(props.row, parentData.client_path, 'editClient')")
+                q-item-section
+                  q-item-label Edit
+
+              q-item(clickable v-close-popup='1' @click="deleteInstance(props.row.id, parentData.client_path, 'client_table_data')")
+                q-item-section
+                  q-item-label Delete
+
+
+    div(class="q-pa-md")
+      q-btn(outline color="secondary" label="Add staff" @click="addNewInstance(parentData.path, 'addStaff')")
+      q-table(title="Staffs:" :data="staff_table_data" :columns="staff_columns" row-key="name")
+        q-td(slot="body-cell-action" slot-scope="props" :props="props")
+          q-btn-dropdown(color="primary" label="Actions")
+            q-list
+              q-item(clickable v-close-popup='1' @click="showInstance(props.row, parentData.path, 'showStaff')")
+                q-item-section
+                  q-item-label Show
+
+              q-item(clickable v-close-popup='1' @click="editInstance(props.row, parentData.path, 'editStaff')")
+                q-item-section
+                  q-item-label Edit
+
+              q-item(clickable v-close-popup='1' @click="deleteInstance(props.row.id, parentData.path, 'staff_table_data')")
+                q-item-section
+                  q-item-label Delete
+
+    router-view(name="add_organization" v-on:update-org-list="getCollection(parentData.organization_path, 'organization_table_data')")
+    router-view(name="edit_organization" v-on:update-org-list="getCollection(parentData.organization_path, 'organization_table_data')")
+
+    router-view(name="add_client" v-on:update-client-list="getCollection(parentData.client_path, 'client_table_data')")
+    router-view(name="edit_client" v-on:update-client-list="getCollection(parentData.client_path, 'client_table_data')")
+
+    router-view(name="add_staff" v-on:update-staff-list="getCollection(parentData.path, 'staff_table_data')")
+    router-view(name="edit_staff" v-on:update-staff-list="getCollection(parentData.path, 'staff_table_data')")
 </template>
 
 
 <script>
   import {backend} from './api/index.js'
-  import AddOrganization from './add_organization'
 
   export default {
     data: function () {
       return {
-        // user: {
-        //     fullname: '',
-        //     email: '',
-        //     phone: '',
-        //     password: ''
-        // },
-        // clients: [],
         organization_columns: [
           {name: 'id', label: 'Id', field: 'id', sortable: true},
           {name: 'org_name', label: 'Name', field: 'name', sortable: true},
@@ -48,122 +83,73 @@
           {name: 'action', label: '', field: 'action'}
         ],
         organization_table_data: [],
+        client_columns: [
+          {name: 'id', label: 'Id', field: 'id', sortable: true},
+          {name: 'fullname', label: 'Fullname', field: 'fullname', sortable: true},
+          {name: 'email', label: 'Email', field: 'email', sortable: true},
+          {name: 'phone', label: 'Phone', field: 'phone', sortable: true},
+          {name: 'action', label: '', field: 'action'}
+        ],
+        client_table_data: [],
+        staff_columns: [
+          {name: 'id', label: 'Id', field: 'id', sortable: true},
+          {name: 'fullname', label: 'Fullname', field: 'fullname', sortable: true},
+          {name: 'email', label: 'Email', field: 'email', sortable: true},
+          {name: 'phone', label: 'Phone', field: 'phone', sortable: true},
+          {name: 'action', label: '', field: 'action'}
+        ],
+        staff_table_data: []
       }
     },
     components: {
-      AddOrganization
     },
     props: {
       parentData: Object
     },
     methods: {
 
-      getOrganizationsCollection() {
-        backend.staffs.index(this.parentData.organization_path)
+      getCollection(path, table_data) {
+        backend.staffs.index(path)
         .then((response) => {
-          // console.log(response.data)
-          this.organization_table_data = response.data
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-        .finally(() => {
-          this.data_for_table = this.organization_table_data
-        })
-      },
-
-      deleteOrganization(id) {
-        // console.log(id)
-        backend.staffs.destroy(this.parentData.organization_path, id)
-        .then((response) => {
-          this.getOrganizationsCollection()
+          this[table_data] = response.data
         })
         .catch((error) => {
           console.log(error)
         })
       },
 
+      showInstance(params, path, route_name) {
+        params.path = path
+        this.$router.push({ name: route_name, params: params })
+      },
 
-      // checkFullname(fullname) {
-      //     return fullname.length > 0 && fullname.length < 5;
-      // },
-      // checkEmail(email) {
-      //     let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      //     return regex.test(String(email).toLowerCase());
-      // },
-      // checkPhone(phone) {
-      //     let regex = /^\d+$/;
-      //     return regex.test(String(phone));
-      // },
-      // checkPassword(password) {
-      //     return password.length >= 4;
-      // },
-      //
-      // getClientsCollection() {
-      //
-      //     backend.staffs.index(this.parentData.client_path)
-      //     .then((response) => {
-      //         // console.log(response.data)
-      //         this.clients = response.data
-      //     })
-      //     .catch((error) => {
-      //         console.log(error)
-      //     })
-      // },
-      //
-      // getClientFullInfo(client) {
-      //     return 'Email: ' + client.email + ', Phone: ' + client.phone
-      // },
-      //
-      // checkValidate() {
-      //     let params = {
-      //         fullname: this.user.fullname,
-      //         email: this.user.email,
-      //         phone: this.user.phone,
-      //         password: this.user.password
-      //     }
-      //
-      //     if (!this.checkFullname(params.fullname)) {
-      //         alert('Fullname field must not contain more than 5 characters')
-      //     } else if (!this.checkEmail(params.email)) {
-      //         alert('Email must be in the form test@test.com')
-      //     } else if (!this.checkPhone(params.phone)) {
-      //         alert('Phone must contain only numbers')
-      //     } else if (!this.checkPassword(params.password)) {
-      //         alert('Password must contain at least 4 characters')
-      //     } else {
-      //         this.addClient(params)
-      //     }
-      // },
-      //
-      // addClient(params) {
-      //     backend.staffs.create(this.parentData.client_path, params)
-      //     .then((response) => {
-      //         // console.log(response)
-      //         this.user.fullname = ''
-      //         this.user.email = ''
-      //         this.user.phone = ''
-      //         this.user.password = ''
-      //         this.getClientsCollection()
-      //     })
-      //     .catch((error) => {
-      //         console.log(error)
-      //     })
-      // },
-      //
-      // deleteClient(id) {
-      //   backend.staffs.destroy(this.parentData.client_path, id)
-      //   .then((response) => {
-      //     this.getClientsCollection()
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
-      // }
+      addNewInstance(path, route_name) {
+        let params = {
+          path: path
+        }
+        this.$router.push({ name: route_name, params: params })
+      },
+
+      editInstance(params, path, route_name) {
+        params.path = path
+        this.$router.push({ name: route_name, params: params })
+      },
+
+      deleteInstance(id, path, table_data) {
+        backend.staffs.destroy(path, id)
+        .then((response) => {
+          this.getCollection(path, table_data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      },
+
     },
     created() {
-      // this.getClientsCollection()
-      this.getOrganizationsCollection()
+      this.getCollection(this.parentData.client_path, 'client_table_data')
+      this.getCollection(this.parentData.organization_path, 'organization_table_data')
+      this.getCollection(this.parentData.path, 'staff_table_data')
     }
   }
 </script>

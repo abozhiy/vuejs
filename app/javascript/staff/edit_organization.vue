@@ -5,7 +5,7 @@
     q-dialog(:value="true" @hide="hide")
       q-card(style="width: 500px; max-width: 80vw;")
         q-card-section
-          div(class="text-h6") Add organization
+          div(class="text-h6") Edit organization
 
         q-card-section
           q-input(outlined v-model="organization.name" label="name")
@@ -14,7 +14,8 @@
           q-input(outlined v-model="organization.ogrn" label="ogrn")
 
         q-card-actions(align="right" class="q-pa-md bg-white text-teal")
-          q-btn(outline v-close-popup="1" color="secondary" label="Add" size='sm' @click="addOrganization")
+          q-btn(outline v-close-popup="1" color="secondary" label="Edit" size='sm' @click="editOrganization")
+
 
 </template>
 
@@ -24,12 +25,14 @@
 
   export default {
     data: function () {
+      let params = this.$route.params
       return {
         organization: {
-          name: '',
-          org_type: '',
-          inn: '',
-          ogrn: ''
+          id: params.id,
+          name: params.name,
+          org_type: params.org_type,
+          inn: params.org_type,
+          ogrn: params.org_type
         }
       }
     },
@@ -39,22 +42,16 @@
         this.$router.push({ name: 'Dashboard' })
       },
 
-      addOrganization() {
+      editOrganization() {
         let params = {
+          id: this.organization.id,
           name: this.organization.name,
           org_type: this.organization.org_type,
           inn: this.organization.inn,
           ogrn: this.organization.ogrn
         }
 
-        backend.staffs.create(this.$route.params.path, params)
-        .then((response) => {
-          // console.log(response)
-          this.organization.name = ''
-          this.organization.org_type = ''
-          this.organization.inn = ''
-          this.organization.ogrn = ''
-        })
+        backend.staffs.update(this.$route.params.path+'/'+this.$route.params.id, params)
         .catch((error) => {
           console.log(error)
         })

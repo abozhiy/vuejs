@@ -24,7 +24,13 @@ import {
   QTable,
   QTh,
   QTr,
-  QTd
+  QTd,
+  QDialog,
+  ClosePopup,
+  QCard,
+  QCardSection,
+  QCardActions,
+  QBtnDropdown
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -48,9 +54,16 @@ Vue.use(Quasar, {
     QTable,
     QTh,
     QTr,
-    QTd
+    QTd,
+    QDialog,
+    QCard,
+    QCardSection,
+    QCardActions,
+    QBtnDropdown
   },
-  directives: {},
+  directives: {
+    ClosePopup
+  },
   plugins: {},
   iconSet: iconSet
 })
