@@ -4,4 +4,5 @@ json.array! @organizations do |organization|
   json.org_type organization.org_type
   json.inn organization.inn
   json.ogrn organization.ogrn
+  json.client_ids organization.clients.try(:ids)
 end

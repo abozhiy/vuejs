@@ -9,7 +9,7 @@
         navbar(:parentData="{path: path, client_path: client_path}")
       q-page-container
         //p(v-html="message")
-        router-view(:parentData="{path: path, client_path: client_path, organization_path: organization_path}")
+        router-view(:parentData="{path: path, client_path: client_path, organization_path: organization_path, equipment_path: equipment_path}")
       q-drawer(show-if-above side="left" bordered)
 </template>
 
@@ -24,6 +24,7 @@
         path: '/staff/staffs',
         client_path: '/client/clients',
         organization_path: '/organizations',
+        equipment_path: '/equipments',
         loading: true
       }
     },

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     devise_for :clients
     namespace :v1 do
       resources :organizations
+      resources :equipments
       namespace :client do
         resources :clients
       end

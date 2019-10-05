@@ -40,6 +40,6 @@ class Api::V1::Client::ClientsController < ActionController::Base
   private
 
   def client_params
-    params.require(:client).permit(:fullname, :email, :phone, :password)
+    params.require(:client).permit(:fullname, :email, :phone, :password, organization_ids: [])
   end
 end

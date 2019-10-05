@@ -1,4 +1,8 @@
 class Client < ApplicationRecord
+
+  has_many :client_organizations, dependent: :destroy
+  has_many :organizations, through: :client_organizations
+
   # before_action :generate_authentication_token
 
   devise :database_authenticatable,

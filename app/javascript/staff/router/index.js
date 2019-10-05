@@ -23,6 +23,13 @@ export default new VueRouter({
           }
         },
         {
+          name: 'addEquipment',
+          path: '/staff/equipments/new',
+          components: {
+            add_equipment: () => import('../add_equipment')
+          }
+        },
+        {
           name: 'addClient',
           path: '/staff/clients/new',
           components: {
@@ -41,6 +48,13 @@ export default new VueRouter({
           path: '/staff/organizations/:id/edit',
           components: {
             edit_organization: () => import('../edit_organization')
+          }
+        },
+        {
+          name: 'editEquipment',
+          path: '/staff/equipments/:id/edit',
+          components: {
+            edit_equipment: () => import('../edit_equipment')
           }
         },
         {
@@ -63,6 +77,11 @@ export default new VueRouter({
       name: 'showOrganization',
       path: '/staff/organizations/:id',
       component: () => import('../show_organization')
+    },
+    {
+      name: 'showEquipment',
+      path: '/staff/equipments/:id',
+      component: () => import('../show_equipment')
     },
     {
       name: 'showClient',

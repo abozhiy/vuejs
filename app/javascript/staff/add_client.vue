@@ -12,6 +12,7 @@
           q-input(outlined v-model="client.email" label="email")
           q-input(outlined v-model="client.phone" label="phone")
           q-input(outlined v-model="client.password" label="password")
+          q-select(outlined v-model="client.organization_ids" multiple :options="organizations" label="organizations")
 
         q-card-actions(align="right" class="q-pa-md bg-white text-teal")
           q-btn(outline v-close-popup="1" color="secondary" label="Add" size='sm' @click="checkValidate")
@@ -29,8 +30,10 @@
             fullname: '',
             email: '',
             phone: '',
-            password: ''
-        }
+            password: '',
+            organization_ids: []
+        },
+        organizations: this.$route.params.organizations_for_select
       }
     },
     methods: {
@@ -60,7 +63,8 @@
             fullname: this.client.fullname,
             email: this.client.email,
             phone: this.client.phone,
-            password: this.client.password
+            password: this.client.password,
+            organization_ids: this.client.organization_ids.map(({ value }) => value)
         }
 
         if (!this.checkFullname(params.fullname)) {
@@ -84,6 +88,7 @@
             this.client.email = ''
             this.client.phone = ''
             this.client.password = ''
+            this.client.organization_ids = []
         })
         .catch((error) => {
             console.log(error)

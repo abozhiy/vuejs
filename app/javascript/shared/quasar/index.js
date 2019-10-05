@@ -30,7 +30,8 @@ import {
   QCard,
   QCardSection,
   QCardActions,
-  QBtnDropdown
+  QBtnDropdown,
+  QSelect
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -59,7 +60,8 @@ Vue.use(Quasar, {
     QCard,
     QCardSection,
     QCardActions,
-    QBtnDropdown
+    QBtnDropdown,
+    QSelect
   },
   directives: {
     ClosePopup
