@@ -9,8 +9,9 @@
         navbar(:parentData="{path: path, client_path: client_path}")
       q-page-container
         //p(v-html="message")
-        router-view(:parentData="{path: path, client_path: client_path, organization_path: organization_path, equipment_path: equipment_path}")
-      q-drawer(show-if-above side="left" bordered)
+        //router-view(:parentData="{path: path, client_path: client_path, organization_path: organization_path, equipment_path: equipment_path}")
+        router-view(:parentData="{message: message}")
+      //q-drawer(show-if-above side="left" bordered)
 </template>
 
 <script>
@@ -23,8 +24,8 @@
         message: "Hello staff!",
         path: '/staff/staffs',
         client_path: '/client/clients',
-        organization_path: '/organizations',
-        equipment_path: '/equipments',
+        // organization_path: '/organizations',
+        // equipment_path: '/equipments',
         loading: true
       }
     },
@@ -33,13 +34,6 @@
       // Dashboard
     },
     methods: {
-      // addStaff() {
-      //   // let add_staff = true
-      //   this.$router.push({ path: '/staff/new_staff', params: {add_staff: true} })
-      // }
-      // toDashboard (params) {
-      //   this.$router.push({path: '/staff/dashboard', params: {organization_path: params.organization_path}})
-      // }
     },
     mounted() {
       this.loading = false

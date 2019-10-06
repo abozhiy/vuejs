@@ -36,6 +36,8 @@ class Api::V1::Staff::StaffsController < ActionController::Base
     head :ok
   end
 
+  def dashboard; end
+
   private
 
   def staff_params

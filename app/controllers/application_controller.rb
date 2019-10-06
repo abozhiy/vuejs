@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     case resource.class.name
     when 'Staff'
-      staff_staffs_path
+      dashboard_staff_staffs_path
     when 'Client'
       client_clients_path
     else

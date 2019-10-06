@@ -21,7 +21,7 @@
 
 
 <script>
-  import {backend} from './api/index.js'
+  import {backend} from '../api/index.js'
 
   export default {
     data: function () {
@@ -39,7 +39,7 @@
     methods: {
 
       hide() {
-        this.$router.push({ name: 'Dashboard' })
+        this.$router.push({ name: 'Staffs' })
       },
 
       editStaff() {

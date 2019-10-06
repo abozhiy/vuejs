@@ -21,7 +21,7 @@
 
 
 <script>
-  import {backend} from './api/index.js'
+  import {backend} from '../api/index.js'
 
   export default {
     data: function () {
@@ -39,7 +39,7 @@
     methods: {
 
       hide() {
-        this.$router.push({ name: 'Dashboard' })
+        this.$router.push({ name: 'Organizations' })
       },
 
       addOrganization() {
@@ -51,7 +51,7 @@
           client_ids: this.organization.client_ids.map(({ value }) => value)
         }
 
-        backend.staffs.create(this.$route.params.path, params)
+        backend.staffs.create(this.$route.params.path, { organization: params })
         .then((response) => {
           // console.log(response)
           this.organization.name = ''
