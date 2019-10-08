@@ -18,6 +18,8 @@ gem 'jquery-slick-rails'
 gem 'bootstrap'
 gem 'jquery-rails'
 
+gem 'pg_search'
+
 gem 'dotenv-rails'
 
 gem 'coffee-rails', '~> 4.2'
