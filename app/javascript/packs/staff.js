@@ -7,6 +7,7 @@ import Staff from '../staff/staff.vue'
 import Vue from 'vue'
 import '../shared/quasar'
 import router from '../staff/router'
+import store from '../staff/store'
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     new Vue({
       el: element,
       render: h => h(Staff),
-      router
+      router,
+      store
     })
   }
 })

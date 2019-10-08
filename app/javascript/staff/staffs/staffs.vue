@@ -29,15 +29,9 @@
   export default {
     data: function () {
       return {
-        path: '/staff/staffs',
-        staff_columns: [
-          {name: 'id', label: 'Id', field: 'id', sortable: true},
-          {name: 'fullname', label: 'Fullname', field: 'fullname', sortable: true},
-          {name: 'email', label: 'Email', field: 'email', sortable: true},
-          {name: 'phone', label: 'Phone', field: 'phone', sortable: true},
-          {name: 'action', label: '', field: 'action'}
-        ],
-        staff_table_data: []
+        path:                this.$store.state.staffs_path,
+        staff_columns:       this.$store.state.staff_columns,
+        staff_table_data:    []
       }
     },
     methods: {
@@ -47,7 +41,7 @@
       },
 
       getCollection(path, table_data) {
-        backend.staffs.index(path)
+        backend.staffs.index(path, '', '')
         .then((response) => {
           this[table_data] = response.data
         })

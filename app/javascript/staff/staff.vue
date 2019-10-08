@@ -6,32 +6,25 @@
 
     q-layout(view="hHh lpR fFf")
       q-header
-        navbar(:parentData="{path: path, client_path: client_path}")
+        navbar(:parentData="{path: path}")
       q-page-container
-        //p(v-html="message")
-        //router-view(:parentData="{path: path, client_path: client_path, organization_path: organization_path, equipment_path: equipment_path}")
         router-view(:parentData="{message: message}")
       //q-drawer(show-if-above side="left" bordered)
 </template>
 
 <script>
   import Navbar from '../shared/navbar.vue'
-  // import Dashboard from "./dashboard";
 
   export default {
     data: function () {
       return {
-        message: "Hello staff!",
-        path: '/staff/staffs',
-        client_path: '/client/clients',
-        // organization_path: '/organizations',
-        // equipment_path: '/equipments',
-        loading: true
+        message:  "Hello staff!",
+        path:     this.$store.state.staffs_path,
+        loading:  true
       }
     },
     components: {
-      Navbar,
-      // Dashboard
+      Navbar
     },
     methods: {
     },

@@ -18,9 +18,9 @@
   export default {
     data: function () {
       return {
-        message: "Hello client!",
-        path: '/client/clients',
-        loading: true
+        message:    "Hello client!",
+        path:       this.$store.state.clients_path,
+        loading:    true
       }
     },
     components: {

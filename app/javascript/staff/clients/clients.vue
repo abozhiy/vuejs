@@ -29,18 +29,11 @@
   export default {
     data: function () {
       return {
-        path: '/client/clients',
-        organizations_path: '/organizations',
-        client_columns: [
-          {name: 'id', label: 'Id', field: 'id', sortable: true},
-          {name: 'fullname', label: 'Fullname', field: 'fullname', sortable: true},
-          {name: 'email', label: 'Email', field: 'email', sortable: true},
-          {name: 'phone', label: 'Phone', field: 'phone', sortable: true},
-          {name: 'organization_ids', label: 'Organization_ids', field: 'organization_ids', sortable: true},
-          {name: 'action', label: '', field: 'action'}
-        ],
-        client_table_data: [],
-        organization_table_data: []
+        path:                       this.$store.state.clients_path,
+        organizations_path:         this.$store.state.organizations_path,
+        client_columns:             this.$store.state.client_columns,
+        client_table_data:          [],
+        organization_table_data:    []
       }
     },
     methods: {
@@ -50,7 +43,7 @@
       },
 
       getCollection(path, table_data) {
-        backend.staffs.index(path)
+        backend.staffs.index(path, '', '')
         .then((response) => {
           this[table_data] = response.data
         })

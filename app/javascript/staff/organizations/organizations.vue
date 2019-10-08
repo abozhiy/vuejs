@@ -1,7 +1,11 @@
 <template lang='pug'>
   div(class="q-pa-md")
+    div(class="q-pa-md")
+      sort-all-option(:parentData="{options: this.options_for_sorting}")
+      search-all-filter
     q-btn(outline color="secondary" label="Add organization" @click="handlingOrganization({}, 'addOrganization')")
     q-btn(outline color="secondary" label="Back to Dashboard" @click="toDashboard")
+
     q-table(title="Organizations:" :data="organization_table_data" :columns="organization_columns" row-key="name")
       q-td(slot="body-cell-action" slot-scope="props" :props="props")
         q-btn-dropdown(color="primary" label="Actions")
@@ -26,24 +30,43 @@
 
 <script>
   import {backend} from '../api/index.js'
+  import searchAllFilter from '../../shared/filters/searchAll'
+  import sortAllOption from '../../shared/sorting/sortAll'
 
   export default {
     data: function () {
       return {
-        path: '/organizations',
-        clients_path: '/client/clients',
-        organization_columns: [
-          {name: 'id', label: 'Id', field: 'id', sortable: true},
-          {name: 'org_name', label: 'Name', field: 'name', sortable: true},
-          {name: 'org_type', label: 'Type', field: 'org_type', sortable: true},
-          {name: 'inn', label: 'INN', field: 'inn', sortable: true},
-          {name: 'ogrn', label: 'OGRN', field: 'ogrn', sortable: true},
-          {name: 'client_ids', label: 'Client_ids', field: 'client_ids', sortable: true},
-          {name: 'action', label: '', field: 'action'}
-        ],
-        organization_table_data: [],
-        client_table_data: []
+        options_for_sorting:        ['name', 'inn', 'ogrn'],
+        path:                       this.$store.state.organizations_path,
+        clients_path:               this.$store.state.clients_path,
+        organization_columns:       this.$store.state.organization_columns,
+        organization_table_data:    [],
+        client_table_data:          []
       }
+    },
+    computed: {
+      searchAllFilter() {
+        let filter = this.$store.state.search_all_filter
+        // console.log(filter)
+        return filter
+      },
+
+      sortAllOption() {
+        return this.$store.state.sort_all_option
+      }
+    },
+    watch: {
+      searchAllFilter(val) {
+        this.getCollection(this.path, 'organization_table_data')
+      },
+
+      sortAllOption(val) {
+        this.getCollection(this.path, 'organization_table_data')
+      }
+    },
+    components: {
+      searchAllFilter,
+      sortAllOption
     },
     methods: {
 
@@ -52,7 +75,10 @@
       },
 
       getCollection(path, table_data) {
-        backend.staffs.index(path)
+        let filter = this.searchAllFilter
+        let sort = this.sortAllOption
+
+        backend.staffs.index(path, filter, sort)
         .then((response) => {
           this[table_data] = response.data
         })
