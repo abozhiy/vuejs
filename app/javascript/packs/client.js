@@ -6,6 +6,7 @@ import Client from '../client/client.vue'
 
 import Vue from 'vue'
 import '../shared/quasar'
+import store from '../staff/store'
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (element != null) {
     new Vue({
       el: element,
-      render: h => h(Client)
+      render: h => h(Client),
+      store
     })
   }
 })
