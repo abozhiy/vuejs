@@ -119,9 +119,22 @@
         return arr
       }
     },
+    channels: {
+      OrganizationsChannel: {
+        connected() {
+          console.log('I am connected to channel "organizations".');
+        },
+        received(data) {
+          this.getCollection(this.path, 'organization_table_data')
+        }
+      }
+    },
     created() {
       this.getCollection(this.path, 'organization_table_data')
       this.getCollection(this.clients_path, 'client_table_data')
+    },
+    mounted() {
+      this.$cable.subscribe({ channel: 'OrganizationsChannel' });
     }
   }
 </script>

@@ -17,6 +17,7 @@ class Api::V1::OrganizationsController < ActionController::Base
     @organization = Organization.new(organization_params)
 
     if @organization.save
+      @organization.broadcast
       render status: :created
     else
       render json: @organization.errors, status: :unprocessable_entity
@@ -27,6 +28,7 @@ class Api::V1::OrganizationsController < ActionController::Base
     @organization = Organization.find(params[:id])
 
     if @organization.update(organization_params)
+      @organization.broadcast
       render status: :ok
     else
       render json: @organization.errors, status: :unprocessable_entity
@@ -35,8 +37,10 @@ class Api::V1::OrganizationsController < ActionController::Base
 
   def destroy
     @organization = Organization.find(params[:id])
-    @organization.destroy
-    head :ok
+    if @organization.destroy
+      @organization.broadcast
+      head :ok
+    end
   end
 
   private
