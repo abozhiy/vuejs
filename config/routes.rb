@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     devise_for :clients
     namespace :v1 do
-      resources :organizations
+      resources :organizations do
+        get 'perform_sort', on: :collection
+      end
       resources :equipments
       namespace :client do
         resources :clients

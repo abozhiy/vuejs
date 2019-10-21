@@ -14,7 +14,7 @@ export default new Vuex.Store({
     equipments_path: '/equipments',
     organization_columns: [
       {name: 'id', label: 'Id', field: 'id', sortable: true},
-      {name: 'org_name', label: 'Name', field: 'name', sortable: true},
+      {name: 'name', label: 'Name', field: 'name', sortable: true},
       {name: 'org_type', label: 'Type', field: 'org_type', sortable: true},
       {name: 'inn', label: 'INN', field: 'inn', sortable: true},
       {name: 'ogrn', label: 'OGRN', field: 'ogrn', sortable: true},

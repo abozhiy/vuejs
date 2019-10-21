@@ -1,12 +1,12 @@
 <template lang='pug'>
   div(class="q-pa-md")
     div(class="q-pa-md")
-      sort-all-option(:parentData="{options: this.options_for_sorting}")
+      //sort-all-option(:parentData="{options: this.options_for_sorting}")
       search-all-filter
     q-btn(outline color="secondary" label="Add organization" @click="handlingOrganization({}, 'addOrganization')")
     q-btn(outline color="secondary" label="Back to Dashboard" @click="toDashboard")
 
-    q-table(title="Organizations:" :data="organization_table_data" :columns="organization_columns" row-key="name")
+    q-table(title="Organizations:" :data="organization_table_data" :columns="organization_columns" row-key="name" :sort-method="customSort" binary-state-sort)
       q-td(slot="body-cell-action" slot-scope="props" :props="props")
         q-btn-dropdown(color="primary" label="Actions")
           q-list
@@ -31,12 +31,13 @@
 <script>
   import {backend} from '../api/index.js'
   import searchAllFilter from '../../shared/filters/searchAll'
-  import sortAllOption from '../../shared/sorting/sortAll'
+  // import sortAllOption from '../../shared/sorting/sortAll'
 
   export default {
     data: function () {
       return {
-        options_for_sorting:        ['name', 'inn', 'ogrn'],
+        // options_for_sorting:        ['name', 'inn', 'ogrn'],
+        sorting_data:               [],
         path:                       this.$store.state.organizations_path,
         clients_path:               this.$store.state.clients_path,
         organization_columns:       this.$store.state.organization_columns,
@@ -51,22 +52,22 @@
         return filter
       },
 
-      sortAllOption() {
-        return this.$store.state.sort_all_option
-      }
+      // sortAllOption() {
+      //   return this.$store.state.sort_all_option
+      // }
     },
     watch: {
       searchAllFilter(val) {
         this.getCollection(this.path, 'organization_table_data')
       },
 
-      sortAllOption(val) {
-        this.getCollection(this.path, 'organization_table_data')
-      }
+      // sortAllOption(val) {
+      //   this.getCollection(this.path, 'organization_table_data')
+      // }
     },
     components: {
       searchAllFilter,
-      sortAllOption
+      // sortAllOption
     },
     methods: {
 
@@ -76,9 +77,9 @@
 
       getCollection(path, table_data) {
         let filter = this.searchAllFilter
-        let sort = this.sortAllOption
+        // let sort = this.sortAllOption
 
-        backend.staffs.index(path, filter, sort)
+        backend.staffs.index(path, filter)
         .then((response) => {
           this[table_data] = response.data
         })
@@ -117,6 +118,28 @@
           arr.push(params)
         })
         return arr
+      },
+
+      customSort(rows, sortBy, descending) {
+        let params = {
+          sort_by: sortBy,
+          rows: rows
+        }
+
+        if (descending) {
+          params.desc = descending
+        }
+
+        backend.staffs.sort(this.path, { params: params })
+        .then((response) => {
+          this.sorting_data = response.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+        // console.log(this.sorting_data)
+        return this.sorting_data
       }
     },
     channels: {

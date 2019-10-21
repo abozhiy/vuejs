@@ -5,7 +5,10 @@ class Organization < ApplicationRecord
   has_many :client_organizations, dependent: :destroy
   has_many :clients, through: :client_organizations
 
-  pg_search_scope :search, against: [:name, :inn, :ogrn]
+  pg_search_scope :search, against: [:name, :inn, :ogrn],
+                  using: {
+                    tsearch: { prefix: true }
+                  }
 
   # after_save :broadcast
 

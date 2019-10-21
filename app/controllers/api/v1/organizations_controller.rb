@@ -3,7 +3,7 @@ class Api::V1::OrganizationsController < ActionController::Base
 
   def index
     scope = perform_filter(params[:filter])
-    scope = scope.order(params[:sort])
+    # scope = scope.order(params[:sort])
     @organizations = scope
     render status: :ok
   end
@@ -41,6 +41,14 @@ class Api::V1::OrganizationsController < ActionController::Base
       @organization.broadcast
       head :ok
     end
+  end
+
+  def perform_sort
+    rows = params[:rows].map { |row| JSON.parse(row) }
+    rows.sort_by! { |row| row[params[:sort_by]] }
+    rows.reverse! if params[:desc]
+    @organizations = rows
+    render status: :ok
   end
 
   private
