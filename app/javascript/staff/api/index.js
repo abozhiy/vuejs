@@ -10,7 +10,7 @@ const adapter = axios.create({
 
 const backend = {
   staffs: {
-    index: (url, filter, sort) => adapter.get(url + '?filter=' + filter),
+    index: (url, params) => adapter.get(url, params),
     show: (url, id) => adapter.get(url + '/' + id),
     create: (url, params) => adapter.post(url, params),
     update: (url, params) => adapter.patch(url, params),

@@ -12,15 +12,25 @@ export default new Vuex.Store({
     clients_path: '/client/clients',
     organizations_path: '/organizations',
     equipments_path: '/equipments',
-    organization_columns: [
-      {name: 'id', label: 'Id', field: 'id', sortable: true},
-      {name: 'name', label: 'Name', field: 'name', sortable: true},
-      {name: 'org_type', label: 'Type', field: 'org_type', sortable: true},
-      {name: 'inn', label: 'INN', field: 'inn', sortable: true},
-      {name: 'ogrn', label: 'OGRN', field: 'ogrn', sortable: true},
-      {name: 'client_ids', label: 'Client_ids', field: 'client_ids', sortable: true},
-      {name: 'action', label: '', field: 'action'}
-    ],
+    org_table: {
+      columns: [
+        {name: 'id', label: 'Id', field: 'id', sortable: true},
+        {name: 'name', label: 'Name', field: 'name', sortable: true},
+        {name: 'org_type', label: 'Type', field: 'org_type', sortable: true},
+        {name: 'inn', label: 'INN', field: 'inn', sortable: true},
+        {name: 'ogrn', label: 'OGRN', field: 'ogrn', sortable: true},
+        {name: 'client_ids', label: 'Client_ids', field: 'client_ids', sortable: true},
+        {name: 'action', label: '', field: 'action'}
+      ],
+      data: [],
+      pagination: {
+        sortBy: '',
+        descending: true,
+        page: 1,
+        rowsPerPage: 10,
+        rowsNumber: 10
+      },
+    },
     equipment_columns: [
       {name: 'id', label: 'Id', field: 'id', sortable: true},
       {name: 'title', label: 'Title', field: 'title', sortable: true},
@@ -49,8 +59,9 @@ export default new Vuex.Store({
     updateSearchAllFilter(state, value) {
       state.search_all_filter = value
     },
-    updateSortAllOption(state, value) {
-      state.sort_all_option = value
+
+    updateOrganizationTablePagination(state, data) {
+      state.org_table = data
     }
   },
   actions: {},

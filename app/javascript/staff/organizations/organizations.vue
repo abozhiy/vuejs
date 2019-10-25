@@ -1,12 +1,16 @@
 <template lang='pug'>
   div(class="q-pa-md")
     div(class="q-pa-md")
-      //sort-all-option(:parentData="{options: this.options_for_sorting}")
       search-all-filter
     q-btn(outline color="secondary" label="Add organization" @click="handlingOrganization({}, 'addOrganization')")
     q-btn(outline color="secondary" label="Back to Dashboard" @click="toDashboard")
 
-    q-table(title="Organizations:" :data="organization_table_data" :columns="organization_columns" row-key="name" :sort-method="customSort" binary-state-sort)
+    q-table(ref="org_table" title="Organizations:"
+            :data="$store.state.org_table.data"
+            :columns="$store.state.org_table.columns"
+            :pagination.sync="$store.state.org_table.pagination"
+            :filter="searchAllFilter"
+            row-key="name" @request="onRequest" @click="refresh" binary-state-sort)
       q-td(slot="body-cell-action" slot-scope="props" :props="props")
         q-btn-dropdown(color="primary" label="Actions")
           q-list
@@ -22,8 +26,8 @@
               q-item-section
                 q-item-label Delete
 
-    router-view(name="add_organization" v-on:update-org-list="getCollection(path, 'organization_table_data')")
-    router-view(name="edit_organization" v-on:update-org-list="getCollection(path, 'organization_table_data')")
+    router-view(name="add_organization" v-on:update-org-list="refresh")
+    router-view(name="edit_organization" v-on:update-org-list="refresh")
 
 </template>
 
@@ -31,55 +35,54 @@
 <script>
   import {backend} from '../api/index.js'
   import searchAllFilter from '../../shared/filters/searchAll'
-  // import sortAllOption from '../../shared/sorting/sortAll'
 
   export default {
     data: function () {
       return {
-        // options_for_sorting:        ['name', 'inn', 'ogrn'],
-        sorting_data:               [],
         path:                       this.$store.state.organizations_path,
         clients_path:               this.$store.state.clients_path,
-        organization_columns:       this.$store.state.organization_columns,
-        organization_table_data:    [],
         client_table_data:          []
       }
     },
+
     computed: {
       searchAllFilter() {
-        let filter = this.$store.state.search_all_filter
-        // console.log(filter)
-        return filter
+        return this.$store.state.search_all_filter
       },
-
-      // sortAllOption() {
-      //   return this.$store.state.sort_all_option
-      // }
     },
-    watch: {
-      searchAllFilter(val) {
-        this.getCollection(this.path, 'organization_table_data')
-      },
 
-      // sortAllOption(val) {
-      //   this.getCollection(this.path, 'organization_table_data')
-      // }
-    },
     components: {
-      searchAllFilter,
-      // sortAllOption
+      searchAllFilter
     },
+
     methods: {
+
+      refresh() {
+        this.$refs.org_table.requestServerInteraction()
+      },
+
+      onRequest (props) {
+        let params = props.pagination
+        params.filter = props.filter
+        this.getOrgCollection(this.path, params)
+      },
 
       toDashboard() {
         this.$router.push({ name: 'Dashboard' })
       },
 
-      getCollection(path, table_data) {
-        let filter = this.searchAllFilter
-        // let sort = this.sortAllOption
+      getOrgCollection(path, params) {
+        backend.staffs.index(path, { params: {table: params} })
+        .then((response) => {
+          this.$store.commit('updateOrganizationTablePagination', response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      },
 
-        backend.staffs.index(path, filter)
+      getCollection(path, table_data) {
+        backend.staffs.index(path)
         .then((response) => {
           this[table_data] = response.data
         })
@@ -96,7 +99,7 @@
       deleteInstance(id, path, table_data) {
         backend.staffs.destroy(path, id)
         .then((response) => {
-          this.getCollection(path, table_data)
+          this.refresh()
         })
         .catch((error) => {
           console.log(error)
@@ -119,44 +122,33 @@
         })
         return arr
       },
-
-      customSort(rows, sortBy, descending) {
-        let params = {
-          sort_by: sortBy,
-          rows: rows
-        }
-
-        if (descending) {
-          params.desc = descending
-        }
-
-        backend.staffs.sort(this.path, { params: params })
-        .then((response) => {
-          this.sorting_data = response.data
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-
-        // console.log(this.sorting_data)
-        return this.sorting_data
-      }
     },
+
     channels: {
       OrganizationsChannel: {
         connected() {
           console.log('I am connected to channel "organizations".');
         },
         received(data) {
-          this.getCollection(this.path, 'organization_table_data')
+          this.refresh()
         }
       }
     },
+
     created() {
-      this.getCollection(this.path, 'organization_table_data')
+      this.onRequest({
+        pagination: this.$store.state.org_table.pagination,
+        filter: this.searchAllFilter
+      })
       this.getCollection(this.clients_path, 'client_table_data')
     },
+
     mounted() {
+      // this.onRequest({
+      //   pagination: this.$store.state.org_table.pagination,
+      //   filter: this.searchAllFilter
+      // })
+
       this.$cable.subscribe({ channel: 'OrganizationsChannel' });
     }
   }
