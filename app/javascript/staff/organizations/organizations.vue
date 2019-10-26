@@ -11,7 +11,7 @@
             :columns="org_table.columns"
             :pagination.sync="org_table.pagination"
             :filter="searchAllFilter"
-            row-key="name" @request="onRequest" @click="refresh" binary-state-sort)
+            row-key="id" @request="onRequest" @click="refresh" binary-state-sort)
       q-td(slot="body-cell-action" slot-scope="props" :props="props")
         q-btn-dropdown(color="primary" label="Actions")
           q-list
