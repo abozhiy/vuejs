@@ -25,10 +25,10 @@ export default new Vuex.Store({
       data: [],
       pagination: {
         sortBy: '',
-        descending: true,
+        descending: false,
         page: 1,
-        rowsPerPage: 10,
-        rowsNumber: 10
+        rowsPerPage: 5,
+        rowsNumber: 0
       },
     },
     equipment_columns: [

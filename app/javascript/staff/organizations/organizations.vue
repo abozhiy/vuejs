@@ -6,9 +6,10 @@
     q-btn(outline color="secondary" label="Back to Dashboard" @click="toDashboard")
 
     q-table(ref="org_table" title="Organizations:"
-            :data="$store.state.org_table.data"
-            :columns="$store.state.org_table.columns"
-            :pagination.sync="$store.state.org_table.pagination"
+            :loading="loading"
+            :data="org_table.data"
+            :columns="org_table.columns"
+            :pagination.sync="org_table.pagination"
             :filter="searchAllFilter"
             row-key="name" @request="onRequest" @click="refresh" binary-state-sort)
       q-td(slot="body-cell-action" slot-scope="props" :props="props")
@@ -39,6 +40,7 @@
   export default {
     data: function () {
       return {
+        loading:                    false,
         path:                       this.$store.state.organizations_path,
         clients_path:               this.$store.state.clients_path,
         client_table_data:          []
@@ -49,6 +51,10 @@
       searchAllFilter() {
         return this.$store.state.search_all_filter
       },
+
+      org_table() {
+        return this.$store.state.org_table
+      }
     },
 
     components: {
@@ -64,6 +70,7 @@
       onRequest (props) {
         let params = props.pagination
         params.filter = props.filter
+
         this.getOrgCollection(this.path, params)
       },
 
@@ -72,9 +79,11 @@
       },
 
       getOrgCollection(path, params) {
+        this.loading = true
         backend.staffs.index(path, { params: {table: params} })
-        .then((response) => {
-          this.$store.commit('updateOrganizationTablePagination', response.data)
+        .then(({ data }) => {
+          this.$store.commit('updateOrganizationTablePagination', data)
+          this.loading = false
         })
         .catch((error) => {
           console.log(error)
@@ -137,18 +146,13 @@
 
     created() {
       this.onRequest({
-        pagination: this.$store.state.org_table.pagination,
+        pagination: this.org_table.pagination,
         filter: this.searchAllFilter
       })
       this.getCollection(this.clients_path, 'client_table_data')
     },
 
     mounted() {
-      // this.onRequest({
-      //   pagination: this.$store.state.org_table.pagination,
-      //   filter: this.searchAllFilter
-      // })
-
       this.$cable.subscribe({ channel: 'OrganizationsChannel' });
     }
   }

@@ -4,29 +4,35 @@ class OrganizationTableHandling
     @params = params
     @organizations = organizations
     @columns ||= columns
-    @data ||= get_data
+    @data ||= data
     @pagination ||= pagination
   end
 
   def response!
-    {columns: @columns, data: @data, pagination: @pagination}
+    {columns: @columns, data: data_per_page, pagination: @pagination}
   end
 
   private
 
-  def get_data
+  def data
     data = @organizations.sort_by { |row| row[@params['sortBy']] }
     data.reverse! if @params['descending'].to_s == 'true'
     data.map! { |o| o.attributes.except('created_at', 'updated_at').merge(client_ids: o.clients.ids) }
   end
 
+  def data_per_page
+    start_row = (@params['page'] - 1) * @params['rowsPerPage']
+    count = @params['rowsPerPage'] == 0 ? @data.count : @params['rowsPerPage']
+    @data.slice(start_row, start_row + count)
+  end
+
   def pagination
     {
       sortBy: @params['sortBy'],
-      descending: @params['descending'].to_s == 'false' ? false : true,
+      descending: @params['descending'],
       page: @params['page'],
       rowsPerPage: @params['rowsPerPage'],
-      rowsNumber: @data.count > @params['rowsPerPage'] ? (@data.count.to_f / @params['rowsPerPage'].to_f).ceil : 1
+      rowsNumber: @data.count
     }
   end
 
