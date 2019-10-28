@@ -23,7 +23,7 @@ class OrganizationTableHandling
   def data_per_page
     start_row = (@params['page'] - 1) * @params['rowsPerPage']
     count = @params['rowsPerPage'] == 0 ? @data.count : @params['rowsPerPage']
-    @data.slice(start_row..(start_row + count - 1))
+    @data.slice(start_row...(start_row + count))
   end
 
   def pagination
