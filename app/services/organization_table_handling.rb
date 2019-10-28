@@ -16,14 +16,14 @@ class OrganizationTableHandling
 
   def data
     data = @organizations.sort_by { |row| row[@params['sortBy']] }
-    data.reverse! if @params['descending'].to_s == 'true'
+    data.reverse! if @params['descending']
     data.map! { |o| o.attributes.except('created_at', 'updated_at').merge(client_ids: o.clients.ids) }
   end
 
   def data_per_page
     start_row = (@params['page'] - 1) * @params['rowsPerPage']
     count = @params['rowsPerPage'] == 0 ? @data.count : @params['rowsPerPage']
-    @data.slice(start_row, start_row + count)
+    @data.slice(start_row..(start_row + count - 1))
   end
 
   def pagination

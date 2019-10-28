@@ -24,7 +24,7 @@ export default new Vuex.Store({
       ],
       data: [],
       pagination: {
-        sortBy: '',
+        sortBy: 'id',
         descending: false,
         page: 1,
         rowsPerPage: 5,
